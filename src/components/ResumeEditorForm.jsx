@@ -181,7 +181,7 @@ export default function ResumeEditorForm({
             rows={6}
             value={data.about.join('\n')}
             onChange={(e) => updateData({
-              about: e.target.value.split('\n').map((line) => line.trim()).filter(Boolean),
+              about: e.target.value.split('\n').map((line) => line.trim()),
             })}
           />
         </Field>
@@ -258,7 +258,7 @@ export default function ResumeEditorForm({
                 rows={4}
                 value={(job.highlights || []).join('\n')}
                 onChange={(e) => updateListItem('experience', index, {
-                  highlights: e.target.value.split('\n').map((line) => line.trim()).filter(Boolean),
+                  highlights: e.target.value.split('\n').map((line) => line.trim()),
                 })}
               />
             </Field>
@@ -325,7 +325,7 @@ export default function ResumeEditorForm({
                 rows={4}
                 value={(project.highlights || []).join('\n')}
                 onChange={(e) => updateListItem('projects', index, {
-                  highlights: e.target.value.split('\n').map((line) => line.trim()).filter(Boolean),
+                  highlights: e.target.value.split('\n').map((line) => line.trim()),
                 })}
               />
             </Field>

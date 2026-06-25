@@ -35,9 +35,9 @@ function ProjectItemContent({ project, linked }) {
         {linked && <span className="project__cta" aria-hidden="true">Open →</span>}
       </div>
       {project.description && <p className="project__description">{project.description}</p>}
-      {project.highlights?.length > 0 && (
+      {project.highlights?.some(Boolean) && (
         <ul className="project__list">
-          {project.highlights.map((item) => (
+          {project.highlights.filter(Boolean).map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
@@ -97,9 +97,9 @@ function ExperienceItem({ job, isLast }) {
           <time className="experience__period">{job.period}</time>
         </div>
         {job.description && <p className="experience__description">{job.description}</p>}
-        {job.highlights?.length > 0 && (
+        {job.highlights?.some(Boolean) && (
           <ul className="experience__list">
-            {job.highlights.map((item) => (
+            {job.highlights.filter(Boolean).map((item) => (
               <li key={item}>{item}</li>
             ))}
           </ul>
@@ -195,10 +195,10 @@ const ResumeView = forwardRef(function ResumeView(
       <Sidebar data={data} profilePhoto={profilePhoto} />
 
       <main className="content">
-        {data.about.length > 0 && (
+        {data.about.some(Boolean) && (
           <Section title="About Me">
             <ul className="about-list">
-              {data.about.map((item) => (
+              {data.about.filter(Boolean).map((item) => (
                 <li key={item}>{item}</li>
               ))}
             </ul>
