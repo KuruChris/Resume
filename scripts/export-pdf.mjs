@@ -6,7 +6,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const outputPath = resolve(root, 'Davie-Chris-Fano-Resume.pdf');
+const outputPath = resolve(root, 'Resume-Template.pdf');
 const VIEWPORT_WIDTH = 1200;
 
 async function exportPdf() {

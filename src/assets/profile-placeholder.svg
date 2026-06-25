@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Profile placeholder">
+  <rect width="200" height="200" fill="#2a2a2e"/>
+  <circle cx="100" cy="78" r="36" fill="#6b6b6f"/>
+  <ellipse cx="100" cy="168" rx="58" ry="48" fill="#6b6b6f"/>
+</svg>

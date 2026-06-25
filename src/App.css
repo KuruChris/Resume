@@ -475,14 +475,20 @@ html.pdf-exporting .sidebar .section {
 }
 
 html.pdf-exporting .skill-list {
-  width: 100%;
-  max-width: 100%;
+  display: block !important;
+  width: 100% !important;
+  max-width: calc(var(--sidebar-width) - 4rem) !important;
 }
 
 html.pdf-exporting .skill-tag {
-  max-width: 100%;
-  overflow-wrap: break-word;
-  word-break: break-word;
+  display: inline-block !important;
+  width: auto !important;
+  max-width: calc(var(--sidebar-width) - 4rem) !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  white-space: normal !important;
+  vertical-align: top;
+  margin: 0 0.4rem 0.4rem 0 !important;
 }
 
 html.pdf-exporting .content {

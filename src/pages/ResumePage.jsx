@@ -1,5 +1,5 @@
 import { resume } from '../data/resume';
-import profilePhoto from '../assets/profile.jpeg';
+import profilePhoto from '../assets/profile-placeholder.svg';
 import ResumeView from '../components/ResumeView';
 import TemplateCta from '../components/TemplateCta';
 import '../App.css';

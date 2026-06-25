@@ -384,6 +384,12 @@
   min-height: auto;
 }
 
+html.pdf-exporting .editor-preview__frame {
+  transform: none !important;
+  margin-bottom: 0 !important;
+  width: 1200px !important;
+}
+
 .editor-form {
   display: flex;
   flex-direction: column;
