@@ -23,6 +23,14 @@ function Section({ title, children, className = '' }) {
   );
 }
 
+function hasProjectContent(project) {
+  return Boolean(
+    project.name?.trim()
+    || project.description?.trim()
+    || project.highlights?.some(Boolean),
+  );
+}
+
 function hasProjectLink(project) {
   return Boolean(project.linkEnabled && project.url?.trim());
 }
@@ -185,6 +193,8 @@ const ResumeView = forwardRef(function ResumeView(
   { data, profilePhoto, showFooter = true, children, themeId = DEFAULT_THEME_ID },
   ref,
 ) {
+  const filledProjects = (data.projects || []).filter(hasProjectContent);
+
   return (
     <div
       className="resume"
@@ -205,6 +215,19 @@ const ResumeView = forwardRef(function ResumeView(
           </Section>
         )}
 
+        {filledProjects.length > 0 && (
+          <Section title="Projects">
+            <div className="project-list">
+              {filledProjects.map((project, index) => (
+                <ProjectItem
+                  key={`${project.name}-${index}`}
+                  project={project}
+                />
+              ))}
+            </div>
+          </Section>
+        )}
+
         {data.experience.length > 0 && (
           <Section title="Work Experience">
             <div className="timeline">
@@ -213,19 +236,6 @@ const ResumeView = forwardRef(function ResumeView(
                   key={`${job.company}-${job.period}-${index}`}
                   job={job}
                   isLast={index === data.experience.length - 1}
-                />
-              ))}
-            </div>
-          </Section>
-        )}
-
-        {data.projects?.length > 0 && (
-          <Section title="Projects">
-            <div className="project-list">
-              {data.projects.map((project, index) => (
-                <ProjectItem
-                  key={`${project.name}-${index}`}
-                  project={project}
                 />
               ))}
             </div>

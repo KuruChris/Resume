@@ -200,73 +200,6 @@ export default function ResumeEditorForm({
       </SectionCard>
 
       <SectionCard
-        title="Work experience"
-        onAdd={() => addListItem('experience', emptyExperience)}
-        addLabel="+ Add role"
-      >
-        {data.experience.map((job, index) => (
-          <div key={index} className="editor-card">
-            <div className="editor-card__header">
-              <h4 className="editor-card__title">Role {index + 1}</h4>
-              <button
-                type="button"
-                className="editor-btn editor-btn--danger"
-                onClick={() => removeListItem('experience', index)}
-              >
-                Remove
-              </button>
-            </div>
-            <Field label="Job title">
-              <input
-                className="editor-input"
-                value={job.title}
-                onChange={(e) => updateListItem('experience', index, { title: e.target.value })}
-              />
-            </Field>
-            <Field label="Company">
-              <input
-                className="editor-input"
-                value={job.company}
-                onChange={(e) => updateListItem('experience', index, { company: e.target.value })}
-              />
-            </Field>
-            <Field label="Location (optional)">
-              <input
-                className="editor-input"
-                value={job.location || ''}
-                onChange={(e) => updateListItem('experience', index, { location: e.target.value })}
-              />
-            </Field>
-            <Field label="Period">
-              <input
-                className="editor-input"
-                value={job.period}
-                onChange={(e) => updateListItem('experience', index, { period: e.target.value })}
-              />
-            </Field>
-            <Field label="Description (optional)">
-              <textarea
-                className="editor-textarea"
-                rows={2}
-                value={job.description || ''}
-                onChange={(e) => updateListItem('experience', index, { description: e.target.value })}
-              />
-            </Field>
-            <Field label="Highlights" hint="One bullet per line.">
-              <textarea
-                className="editor-textarea"
-                rows={4}
-                value={(job.highlights || []).join('\n')}
-                onChange={(e) => updateListItem('experience', index, {
-                  highlights: e.target.value.split('\n').map((line) => line.trim()),
-                })}
-              />
-            </Field>
-          </div>
-        ))}
-      </SectionCard>
-
-      <SectionCard
         title="Projects"
         onAdd={() => addListItem('projects', emptyProject)}
         addLabel="+ Add project"
@@ -325,6 +258,73 @@ export default function ResumeEditorForm({
                 rows={4}
                 value={(project.highlights || []).join('\n')}
                 onChange={(e) => updateListItem('projects', index, {
+                  highlights: e.target.value.split('\n').map((line) => line.trim()),
+                })}
+              />
+            </Field>
+          </div>
+        ))}
+      </SectionCard>
+
+      <SectionCard
+        title="Work experience"
+        onAdd={() => addListItem('experience', emptyExperience)}
+        addLabel="+ Add role"
+      >
+        {data.experience.map((job, index) => (
+          <div key={index} className="editor-card">
+            <div className="editor-card__header">
+              <h4 className="editor-card__title">Role {index + 1}</h4>
+              <button
+                type="button"
+                className="editor-btn editor-btn--danger"
+                onClick={() => removeListItem('experience', index)}
+              >
+                Remove
+              </button>
+            </div>
+            <Field label="Job title">
+              <input
+                className="editor-input"
+                value={job.title}
+                onChange={(e) => updateListItem('experience', index, { title: e.target.value })}
+              />
+            </Field>
+            <Field label="Company">
+              <input
+                className="editor-input"
+                value={job.company}
+                onChange={(e) => updateListItem('experience', index, { company: e.target.value })}
+              />
+            </Field>
+            <Field label="Location (optional)">
+              <input
+                className="editor-input"
+                value={job.location || ''}
+                onChange={(e) => updateListItem('experience', index, { location: e.target.value })}
+              />
+            </Field>
+            <Field label="Period">
+              <input
+                className="editor-input"
+                value={job.period}
+                onChange={(e) => updateListItem('experience', index, { period: e.target.value })}
+              />
+            </Field>
+            <Field label="Description (optional)">
+              <textarea
+                className="editor-textarea"
+                rows={2}
+                value={job.description || ''}
+                onChange={(e) => updateListItem('experience', index, { description: e.target.value })}
+              />
+            </Field>
+            <Field label="Highlights" hint="One bullet per line.">
+              <textarea
+                className="editor-textarea"
+                rows={4}
+                value={(job.highlights || []).join('\n')}
+                onChange={(e) => updateListItem('experience', index, {
                   highlights: e.target.value.split('\n').map((line) => line.trim()),
                 })}
               />
