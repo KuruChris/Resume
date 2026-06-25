@@ -122,7 +122,11 @@ function App() {
 
       <main className="content">
         <Section title="About Me">
-          <p className="summary">{resume.summary}</p>
+          <ul className="about-list">
+            {resume.about.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
         </Section>
 
         <Section title="Work Experience">

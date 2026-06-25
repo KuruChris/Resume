@@ -7,8 +7,12 @@ export const resume = {
     location: 'Cebu City, Cebu',
     linkedin: 'https://linkedin.com/in/davie-chris-fano-ba3219160',
   },
-  summary:
-    'Experienced full-stack web developer with expertise in Laravel, and practicing Agile Methodology.',
+  about: [
+    '5+ years building full-stack web applications — Laravel backends, React frontends, and REST APIs shipped to production.',
+    'Own features end-to-end: Figma mockups → responsive UI → database design → deployment, with SEO and E2E testing built in.',
+    'Built CRMs, drag-and-drop site builders, and SEO-driven marketing sites for clients in Japan and the Philippines.',
+    'Agile practitioner and certified Scrum Master — ship iteratively with stakeholders, not in a vacuum.',
+  ],
   education: [
     {
       degree: 'Bachelor of Science in Information Technology',
