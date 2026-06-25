@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import { resume } from './data/resume';
 import profilePhoto from './assets/profile.jpeg';
 import './App.css';
@@ -116,11 +117,40 @@ function ExperienceItem({ job, isLast }) {
 }
 
 function App() {
-  return (
-    <div className="resume">
-      <Sidebar />
+  const resumeRef = useRef(null);
+  const [exporting, setExporting] = useState(false);
 
-      <main className="content">
+  async function handleExportPdf() {
+    if (!resumeRef.current || exporting) return;
+
+    setExporting(true);
+    try {
+      const { downloadResumePdf } = await import('./utils/exportPdf');
+      await downloadResumePdf(resumeRef.current);
+    } catch (error) {
+      console.error(error);
+      window.alert('Could not generate PDF. Please try again.');
+    } finally {
+      setExporting(false);
+    }
+  }
+
+  return (
+    <>
+      <button
+        type="button"
+        className="pdf-export-btn"
+        onClick={handleExportPdf}
+        disabled={exporting}
+        aria-label="Save resume as PDF"
+      >
+        {exporting ? 'Generating…' : 'Save as PDF'}
+      </button>
+
+      <div className="resume" ref={resumeRef}>
+        <Sidebar />
+
+        <main className="content">
         <Section title="About Me">
           <ul className="about-list">
             {resume.about.map((item) => (
@@ -144,8 +174,9 @@ function App() {
         <footer className="footer">
           <p>© {new Date().getFullYear()} {resume.name}</p>
         </footer>
-      </main>
-    </div>
+        </main>
+      </div>
+    </>
   );
 }
 
