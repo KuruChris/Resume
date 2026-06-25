@@ -2,7 +2,6 @@ import { toPng } from 'html-to-image';
 import { jsPDF } from 'jspdf';
 
 const EXPORT_WIDTH = 1200;
-const FILE_NAME = 'Davie-Chris-Fano-Resume.pdf';
 
 function loadImage(src) {
   return new Promise((resolve, reject) => {
@@ -19,7 +18,7 @@ function waitForLayout() {
   });
 }
 
-export async function downloadResumePdf(resumeElement) {
+export async function downloadResumePdf(resumeElement, fileName = 'Resume.pdf') {
   const root = document.documentElement;
   root.classList.add('pdf-exporting');
 
@@ -27,11 +26,15 @@ export async function downloadResumePdf(resumeElement) {
     await document.fonts.ready;
     await waitForLayout();
 
+    const backgroundColor = getComputedStyle(resumeElement)
+      .getPropertyValue('--color-bg')
+      .trim() || '#f5f3ef';
+
     const dataUrl = await toPng(resumeElement, {
       width: EXPORT_WIDTH,
       pixelRatio: 2,
       cacheBust: true,
-      backgroundColor: '#f5f3ef',
+      backgroundColor,
     });
 
     const image = await loadImage(dataUrl);
@@ -44,7 +47,7 @@ export async function downloadResumePdf(resumeElement) {
     });
 
     pdf.addImage(dataUrl, 'PNG', 0, 0, image.width, image.height, undefined, 'FAST');
-    pdf.save(FILE_NAME);
+    pdf.save(fileName);
   } finally {
     root.classList.remove('pdf-exporting');
   }
