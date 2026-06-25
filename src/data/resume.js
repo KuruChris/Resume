@@ -104,4 +104,19 @@ export const resume = {
     { name: 'English', level: 'Full Professional Proficiency' },
     { name: 'Tagalog', level: 'Full Professional Proficiency' },
   ],
+  projects: [
+    {
+      name: 'Resume Builder',
+      description:
+        'A personal resume site with a live editor, theme customization, and one-click PDF export.',
+      linkEnabled: true,
+      url: '/editor',
+      highlights: [
+        'Built with React and Vite, with client-side routing for the public resume and editor views.',
+        'Live preview editor for profile, experience, skills, and other resume sections.',
+        'PDF export from the rendered resume layout using html-to-image and jsPDF.',
+        'Deployable as a static site on Netlify with SPA redirects.',
+      ],
+    },
+  ],
 };

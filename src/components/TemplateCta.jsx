@@ -6,7 +6,22 @@ const features = [
   'Download as PDF instantly',
 ];
 
-export default function TemplateCta() {
+export default function TemplateCta({ variant = 'default' }) {
+  if (variant === 'compact') {
+    return (
+      <aside className="template-cta--compact" aria-label="Resume template">
+        <div className="template-cta--compact__inner">
+          <p className="template-cta--compact__text">
+            Like this layout?
+          </p>
+          <Link to="/editor" className="template-cta__button">
+            Use this template
+          </Link>
+        </div>
+      </aside>
+    );
+  }
+
   return (
     <aside className="template-cta" aria-label="Resume template">
       <div className="template-cta__glow" aria-hidden="true" />

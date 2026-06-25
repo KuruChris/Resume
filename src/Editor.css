@@ -72,6 +72,50 @@
   width: 100%;
 }
 
+.resume-page__top {
+  background: #141416;
+  border-bottom: 1px solid rgba(196, 163, 90, 0.12);
+}
+
+.template-cta--compact {
+  height: 50px;
+  padding: 0 0.85rem;
+  display: flex;
+  align-items: center;
+  background: transparent;
+  color: var(--color-sidebar-text);
+  box-sizing: border-box;
+}
+
+.template-cta--compact__inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.template-cta--compact__text {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-sidebar-muted);
+  line-height: 1.25;
+}
+
+.template-cta--compact .template-cta__button {
+  font-size: 0.8125rem;
+  padding: 0.4rem 0.9rem;
+  box-shadow: none;
+  line-height: 1.2;
+}
+
+.template-cta--compact .template-cta__button:hover {
+  transform: none;
+  box-shadow: 0 2px 10px rgba(196, 163, 90, 0.3);
+}
+
 .template-cta {
   position: relative;
   width: 100%;
@@ -389,6 +433,21 @@
 .editor-field__hint {
   font-size: 0.75rem;
   color: var(--color-text-muted);
+}
+
+.editor-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin-bottom: 0.85rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  cursor: pointer;
+}
+
+.editor-checkbox input {
+  margin-top: 0.2rem;
+  flex-shrink: 0;
 }
 
 .editor-input,

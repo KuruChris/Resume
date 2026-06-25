@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import { Link } from 'react-router-dom';
 import { DEFAULT_THEME_ID, getThemeStyle } from '../data/themes';
 
 function ContactLink({ href, label, external }) {
@@ -19,6 +20,64 @@ function Section({ title, children, className = '' }) {
       <h2 className="section__title">{title}</h2>
       {children}
     </section>
+  );
+}
+
+function hasProjectLink(project) {
+  return Boolean(project.linkEnabled && project.url?.trim());
+}
+
+function ProjectItemContent({ project, linked }) {
+  return (
+    <>
+      <div className="project__header">
+        <h3 className="project__name">{project.name}</h3>
+        {linked && <span className="project__cta" aria-hidden="true">Open →</span>}
+      </div>
+      {project.description && <p className="project__description">{project.description}</p>}
+      {project.highlights?.length > 0 && (
+        <ul className="project__list">
+          {project.highlights.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      )}
+    </>
+  );
+}
+
+function ProjectItem({ project }) {
+  const url = project.url?.trim();
+  const linked = hasProjectLink(project);
+  const className = `project${linked ? ' project--linked' : ''}`;
+
+  if (!linked) {
+    return (
+      <article className={className}>
+        <ProjectItemContent project={project} linked={false} />
+      </article>
+    );
+  }
+
+  const isInternal = url.startsWith('/') && !url.startsWith('//');
+
+  if (isInternal) {
+    return (
+      <Link to={url} className={className}>
+        <ProjectItemContent project={project} linked />
+      </Link>
+    );
+  }
+
+  return (
+    <a
+      href={url}
+      className={className}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <ProjectItemContent project={project} linked />
+    </a>
   );
 }
 
@@ -154,6 +213,19 @@ const ResumeView = forwardRef(function ResumeView(
                   key={`${job.company}-${job.period}-${index}`}
                   job={job}
                   isLast={index === data.experience.length - 1}
+                />
+              ))}
+            </div>
+          </Section>
+        )}
+
+        {data.projects?.length > 0 && (
+          <Section title="Projects">
+            <div className="project-list">
+              {data.projects.map((project, index) => (
+                <ProjectItem
+                  key={`${project.name}-${index}`}
+                  project={project}
                 />
               ))}
             </div>

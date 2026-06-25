@@ -27,9 +27,13 @@ export default function ResumePage() {
 
   return (
     <>
+      <header className="resume-page__top">
+        <TemplateCta variant="compact" />
+      </header>
+
       <button
         type="button"
-        className="pdf-export-btn"
+        className="pdf-export-btn pdf-export-btn--sticky"
         onClick={handleExportPdf}
         disabled={exporting}
         aria-label="Save resume as PDF"

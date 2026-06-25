@@ -24,6 +24,14 @@ const emptyLanguage = () => ({
   level: '',
 });
 
+const emptyProject = () => ({
+  name: '',
+  description: '',
+  linkEnabled: false,
+  url: '',
+  highlights: [],
+});
+
 import ThemeSelector from './ThemeSelector';
 
 function Field({ label, children, hint }) {
@@ -250,6 +258,73 @@ export default function ResumeEditorForm({
                 rows={4}
                 value={(job.highlights || []).join('\n')}
                 onChange={(e) => updateListItem('experience', index, {
+                  highlights: e.target.value.split('\n').map((line) => line.trim()).filter(Boolean),
+                })}
+              />
+            </Field>
+          </div>
+        ))}
+      </SectionCard>
+
+      <SectionCard
+        title="Projects"
+        onAdd={() => addListItem('projects', emptyProject)}
+        addLabel="+ Add project"
+      >
+        {(data.projects || []).map((project, index) => (
+          <div key={index} className="editor-card">
+            <div className="editor-card__header">
+              <h4 className="editor-card__title">Project {index + 1}</h4>
+              <button
+                type="button"
+                className="editor-btn editor-btn--danger"
+                onClick={() => removeListItem('projects', index)}
+              >
+                Remove
+              </button>
+            </div>
+            <Field label="Project name">
+              <input
+                className="editor-input"
+                value={project.name}
+                onChange={(e) => updateListItem('projects', index, { name: e.target.value })}
+              />
+            </Field>
+            <label className="editor-checkbox">
+              <input
+                type="checkbox"
+                checked={Boolean(project.linkEnabled)}
+                onChange={(e) => updateListItem('projects', index, { linkEnabled: e.target.checked })}
+              />
+              <span>Link this project (clickable card on your resume)</span>
+            </label>
+            {project.linkEnabled && (
+              <Field
+                label="Link URL"
+                hint="Use /editor for this template, or any full URL (e.g. GitHub, live demo)."
+              >
+                <input
+                  className="editor-input"
+                  value={project.url || ''}
+                  onChange={(e) => updateListItem('projects', index, { url: e.target.value })}
+                  placeholder="/editor or https://..."
+                />
+              </Field>
+            )}
+            <Field label="Description (optional)">
+              <textarea
+                className="editor-textarea"
+                rows={2}
+                value={project.description || ''}
+                onChange={(e) => updateListItem('projects', index, { description: e.target.value })}
+              />
+            </Field>
+            <Field label="Highlights" hint="One bullet per line.">
+              <textarea
+                className="editor-textarea"
+                rows={4}
+                value={(project.highlights || []).join('\n')}
+                onChange={(e) => updateListItem('projects', index, {
                   highlights: e.target.value.split('\n').map((line) => line.trim()).filter(Boolean),
                 })}
               />
