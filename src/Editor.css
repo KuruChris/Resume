@@ -384,6 +384,73 @@
   min-height: auto;
 }
 
+.resume--editable .editable-field {
+  cursor: text;
+  border-radius: 3px;
+  outline: 1px dashed transparent;
+  transition: outline-color 0.15s, background 0.15s;
+}
+
+.resume--editable .editable-field:hover,
+.resume--editable .editable-field:focus-visible {
+  outline-color: var(--color-accent);
+}
+
+.resume--editable .sidebar .editable-field:hover,
+.resume--editable .sidebar .editable-field:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.resume--editable .content .editable-field:hover,
+.resume--editable .content .editable-field:focus-visible {
+  background: rgba(196, 163, 90, 0.1);
+}
+
+.editable-field--empty {
+  opacity: 0.65;
+  font-style: italic;
+}
+
+.editable-field__input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--color-accent);
+  border-radius: 4px;
+  padding: 0.15em 0.4em;
+  margin: -0.15em -0.4em;
+  box-sizing: content-box;
+  resize: vertical;
+}
+
+.resume--editable .sidebar .editable-field__input {
+  color: var(--color-sidebar-text);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.resume--editable .sidebar .contact-link.editable-field--empty {
+  opacity: 0.55;
+}
+
+html.pdf-exporting .editable-field {
+  outline: none !important;
+  background: transparent !important;
+  cursor: default;
+}
+
+html.pdf-exporting .editable-field--empty {
+  display: none;
+}
+
+html.pdf-exporting .editable-field__input {
+  display: none;
+}
+
 html.pdf-exporting .editor-preview__frame {
   transform: none !important;
   margin-bottom: 0 !important;
@@ -417,6 +484,12 @@ html.pdf-exporting .editor-preview__frame {
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 600;
+}
+
+.editor-section__hint {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin: -0.35rem 0 1rem;
 }
 
 .editor-field {

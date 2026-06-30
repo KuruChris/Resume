@@ -24,6 +24,14 @@ const emptyLanguage = () => ({
   level: '',
 });
 
+const emptyReference = () => ({
+  name: '',
+  title: '',
+  company: '',
+  phone: '',
+  email: '',
+});
+
 const emptyProject = () => ({
   name: '',
   description: '',
@@ -78,16 +86,16 @@ export default function ResumeEditorForm({
 
   function updateListItem(listName, index, patch) {
     updateData({
-      [listName]: data[listName].map((item, i) => (i === index ? { ...item, ...patch } : item)),
+      [listName]: (data[listName] || []).map((item, i) => (i === index ? { ...item, ...patch } : item)),
     });
   }
 
   function addListItem(listName, factory) {
-    updateData({ [listName]: [...data[listName], factory()] });
+    updateData({ [listName]: [...(data[listName] || []), factory()] });
   }
 
   function removeListItem(listName, index) {
-    updateData({ [listName]: data[listName].filter((_, i) => i !== index) });
+    updateData({ [listName]: (data[listName] || []).filter((_, i) => i !== index) });
   }
 
   function handlePhotoInput(event) {
@@ -446,6 +454,66 @@ export default function ResumeEditorForm({
                 className="editor-input"
                 value={lang.level}
                 onChange={(e) => updateListItem('languages', index, { level: e.target.value })}
+              />
+            </Field>
+          </div>
+        ))}
+      </SectionCard>
+
+      <SectionCard
+        title="References"
+        onAdd={() => addListItem('references', emptyReference)}
+        addLabel="+ Add reference"
+      >
+        <p className="editor-section__hint">
+          Optional — leave empty or remove all entries to hide this section on your resume.
+        </p>
+        {(data.references || []).map((ref, index) => (
+          <div key={index} className="editor-card">
+            <div className="editor-card__header">
+              <h4 className="editor-card__title">Reference {index + 1}</h4>
+              <button
+                type="button"
+                className="editor-btn editor-btn--danger"
+                onClick={() => removeListItem('references', index)}
+              >
+                Remove
+              </button>
+            </div>
+            <Field label="Name">
+              <input
+                className="editor-input"
+                value={ref.name}
+                onChange={(e) => updateListItem('references', index, { name: e.target.value })}
+              />
+            </Field>
+            <Field label="Title (optional)">
+              <input
+                className="editor-input"
+                value={ref.title || ''}
+                onChange={(e) => updateListItem('references', index, { title: e.target.value })}
+              />
+            </Field>
+            <Field label="Company (optional)">
+              <input
+                className="editor-input"
+                value={ref.company || ''}
+                onChange={(e) => updateListItem('references', index, { company: e.target.value })}
+              />
+            </Field>
+            <Field label="Phone (optional)">
+              <input
+                className="editor-input"
+                value={ref.phone || ''}
+                onChange={(e) => updateListItem('references', index, { phone: e.target.value })}
+              />
+            </Field>
+            <Field label="Email (optional)">
+              <input
+                className="editor-input"
+                type="email"
+                value={ref.email || ''}
+                onChange={(e) => updateListItem('references', index, { email: e.target.value })}
               />
             </Field>
           </div>

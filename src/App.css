@@ -429,6 +429,29 @@ a.contact-link:hover {
   font-size: 0.78rem;
 }
 
+/* References */
+.reference-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.reference {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.reference__name {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.reference__title,
+.reference__company {
+  font-size: 0.78rem;
+}
+
 /* Force desktop layout while capturing PDF (any screen size) */
 html.pdf-exporting {
   width: 1200px !important;

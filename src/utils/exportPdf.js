@@ -138,6 +138,9 @@ function prepareExportLayout(resumeElement) {
 
 export async function downloadResumePdf(resumeElement, fileName = 'Resume.pdf') {
   const root = document.documentElement;
+  if (document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
   root.classList.add('pdf-exporting');
   const restoreLayout = prepareExportLayout(resumeElement);
 

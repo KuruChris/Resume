@@ -80,6 +80,7 @@ export const resume = {
     { name: 'English', level: 'Full Professional Proficiency' },
     { name: 'Spanish', level: 'Professional Working Proficiency' },
   ],
+  references: [],
   projects: [
     {
       name: 'Resume Builder',

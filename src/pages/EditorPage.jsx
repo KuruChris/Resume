@@ -68,7 +68,7 @@ export default function EditorPage() {
         </div>
 
         <div className="editor-layout__preview">
-          <p className="editor-preview-label">Live preview</p>
+          <p className="editor-preview-label">Live preview — click any text to edit</p>
           <div className="editor-preview__viewport">
             <div className="editor-preview__frame">
               <ResumeView
@@ -77,6 +77,7 @@ export default function EditorPage() {
                 profilePhoto={profilePhoto}
                 themeId={themeId}
                 showFooter={false}
+                onDataChange={setData}
               />
             </div>
           </div>
