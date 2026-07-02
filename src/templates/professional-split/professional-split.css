@@ -1,0 +1,473 @@
+/* Professional Split — centered header + two-column body */
+
+.resume--professional-split {
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  background: var(--color-bg);
+}
+
+/* Header */
+.professional-header {
+  position: relative;
+  text-align: center;
+  padding: 2.5rem 1.5rem 1.75rem;
+  border-bottom: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.professional-header__watermark {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -58%);
+  font-family: var(--font-display);
+  font-size: clamp(6rem, 18vw, 9rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--color-text) 7%, transparent);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.professional-header__name {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-sans);
+  font-size: clamp(1.65rem, 4vw, 2.35rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.professional-header__name .editable-field {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.professional-header__title {
+  position: relative;
+  z-index: 1;
+  margin-top: 0.45rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.professional-header__title .editable-field {
+  display: inline-block;
+  max-width: 100%;
+}
+
+/* Two-column body */
+.professional-split__body {
+  display: grid;
+  grid-template-columns: 32% 68%;
+  align-items: start;
+  max-width: 980px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.professional-split__sidebar {
+  padding: 1.75rem 1.35rem 2rem 1.5rem;
+  border-right: 1px solid var(--color-border);
+}
+
+.professional-split__main {
+  padding: 1.75rem 1.5rem 2rem 1.65rem;
+  min-width: 0;
+}
+
+/* Split section titles */
+.section--split {
+  margin-bottom: 1.65rem;
+}
+
+.section__title--split {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.85rem;
+  padding-bottom: 0;
+  border-bottom: none;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.section__title--split::after {
+  display: none;
+}
+
+.section__title-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-text) 10%, transparent);
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.section__title-text {
+  line-height: 1.2;
+}
+
+/* Contact */
+.split-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.split-contact-list__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+
+.split-contact-list__icon {
+  flex-shrink: 0;
+  width: 1rem;
+  text-align: center;
+  color: color-mix(in srgb, var(--color-text) 45%, transparent);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.split-contact-list__link-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.split-contact-list__item--link {
+  align-items: flex-start;
+}
+
+.split-contact-list__add {
+  padding: 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.split-contact-list__add:hover {
+  color: var(--color-accent);
+}
+
+.split-contact-list__item--add {
+  padding-left: 1.55rem;
+}
+
+.split-contact-list__value a {
+  color: inherit;
+  transition: color 0.15s;
+}
+
+.split-contact-list__value a:hover {
+  color: var(--color-accent);
+}
+
+/* Bullet lists */
+.split-bullet-list {
+  list-style: disc;
+  padding-left: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.split-bullet-list li {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.split-bullet-list--compact li {
+  color: var(--color-text);
+}
+
+/* Skills — two columns, left-to-right flow */
+.split-skills-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem 0.65rem;
+  padding: 0;
+  margin: 0;
+}
+
+.split-skills-grid li {
+  position: relative;
+  padding-left: 0.85rem;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-text);
+  min-width: 0;
+}
+
+.split-skills-grid li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--color-text-muted);
+}
+
+.split-skills-grid .editable-field {
+  display: block;
+  min-width: 0;
+}
+
+/* About / profile summary */
+.split-about-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.split-about-list li {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--color-text-muted);
+  text-align: justify;
+}
+
+/* Education + certificates + references (left column blocks) */
+.split-education-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.split-education__period {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 0.15rem;
+}
+
+.split-education__school {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+.split-education__degree {
+  margin-top: 0.15rem;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+
+.split-reference .split-education__school {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+}
+
+/* Work experience */
+.split-experience-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+.split-experience__top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.15rem;
+}
+
+.split-experience__company {
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  min-width: 0;
+}
+
+.split-experience__period {
+  flex-shrink: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.split-experience__role {
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--color-text-muted);
+  margin-bottom: 0.45rem;
+}
+
+.split-experience__description {
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+  margin-bottom: 0.45rem;
+}
+
+/* Projects */
+.split-project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.split-project,
+.split-project--linked {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.split-project__name {
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.split-project__description {
+  margin-top: 0.25rem;
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+.split-project--linked:hover .split-project__name {
+  color: var(--color-accent);
+}
+
+/* Footer */
+.resume--professional-split .footer {
+  margin-top: 1.5rem;
+  padding-top: 0;
+  border-top: none;
+  text-align: left;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+/* Editable polish */
+.resume--professional-split.resume--editable .split-contact-list__item .editable-field,
+.resume--professional-split.resume--editable .split-education__school .editable-field,
+.resume--professional-split.resume--editable .split-experience__company .editable-field {
+  width: 100%;
+}
+
+@media (max-width: 799px) {
+  .professional-split__body {
+    grid-template-columns: 1fr;
+  }
+
+  .professional-split__sidebar {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 1.25rem;
+  }
+
+  .professional-split__main {
+    padding-top: 1.25rem;
+  }
+
+  .split-experience__top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .professional-header {
+    padding: 3rem 2rem 2rem;
+  }
+
+  .professional-split__sidebar {
+    padding: 2rem 1.5rem 2.5rem 2rem;
+  }
+
+  .professional-split__main {
+    padding: 2rem 2rem 2.5rem 1.85rem;
+  }
+}
+
+/* PDF export */
+html.pdf-exporting .resume--professional-split {
+  flex-direction: column !important;
+}
+
+html.pdf-exporting .resume--professional-split .split-skills-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+html.pdf-exporting .resume--professional-split .professional-split__body {
+  display: grid !important;
+  grid-template-columns: 32% 68% !important;
+  max-width: 980px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+html.pdf-exporting .resume--professional-split .professional-split__main,
+html.pdf-exporting .resume--professional-split .professional-split__sidebar {
+  min-width: 0 !important;
+  word-break: normal !important;
+  overflow-wrap: anywhere !important;
+}
+
+html.pdf-exporting .resume--professional-split .split-experience__top {
+  flex-direction: row !important;
+  align-items: baseline !important;
+}
+
+html.pdf-exporting .resume--professional-split .split-experience__company,
+html.pdf-exporting .resume--professional-split .split-experience__role,
+html.pdf-exporting .resume--professional-split .split-experience__description,
+html.pdf-exporting .resume--professional-split .split-bullet-list li,
+html.pdf-exporting .resume--professional-split .split-skills-grid li,
+html.pdf-exporting .resume--professional-split .split-about-list li {
+  white-space: normal !important;
+  word-break: normal !important;
+}
+
+html.pdf-exporting .resume--professional-split .footer {
+  text-align: left !important;
+}

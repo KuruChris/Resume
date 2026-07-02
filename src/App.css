@@ -59,6 +59,31 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.sidebar__contact .contact-social-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-top: 0.15rem;
+}
+
+.contact-social-link__add {
+  align-self: flex-start;
+  margin-top: 0.15rem;
+  padding: 0.15rem 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 0.75rem;
+  color: var(--color-sidebar-muted);
+  cursor: pointer;
+  opacity: 0.85;
+}
+
+.contact-social-link__add:hover {
+  color: var(--color-accent);
+  opacity: 1;
+}
+
 .contact-link {
   font-size: 0.82rem;
   color: var(--color-sidebar-muted);
@@ -467,6 +492,14 @@ html.pdf-exporting .resume {
   align-items: stretch !important;
 }
 
+html.pdf-exporting .resume--minimal-single {
+  flex-direction: column !important;
+}
+
+html.pdf-exporting .resume--professional-split {
+  flex-direction: column !important;
+}
+
 html.pdf-exporting .sidebar {
   width: var(--sidebar-width) !important;
   min-width: var(--sidebar-width) !important;
@@ -519,20 +552,47 @@ html.pdf-exporting .content {
   max-width: calc(100% - var(--sidebar-width)) !important;
 }
 
+html.pdf-exporting .resume--minimal-single .content--minimal {
+  max-width: 760px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 2.5rem 2rem 3rem !important;
+}
+
+html.pdf-exporting .resume--minimal-single .skill-list {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  max-width: 100% !important;
+}
+
+html.pdf-exporting .resume--minimal-single .skill-tag {
+  max-width: 100% !important;
+}
+
+html.pdf-exporting .resume--minimal-single .footer {
+  text-align: center !important;
+}
+
+html.pdf-exporting .minimal-hero {
+  width: 100% !important;
+  box-shadow: none !important;
+}
+
 html.pdf-exporting .footer {
   text-align: left !important;
 }
 
-html.pdf-exporting .experience__header {
+html.pdf-exporting .resume:not(.resume--minimal-single) .experience__header {
   flex-direction: row !important;
 }
 
-html.pdf-exporting .experience {
+html.pdf-exporting .resume:not(.resume--minimal-single) .experience {
   grid-template-columns: 24px 1fr !important;
   gap: 0 1.25rem !important;
 }
 
-html.pdf-exporting .experience__content {
+html.pdf-exporting .resume:not(.resume--minimal-single) .experience__content {
   padding: 1.35rem 1.5rem !important;
   transform: none !important;
   box-shadow: var(--shadow-sm) !important;
@@ -578,9 +638,14 @@ html.pdf-exporting .experience__content {
 
 /* Desktop layout */
 @media (min-width: 900px) {
-  .resume {
+  .resume:not(.resume--minimal-single):not(.resume--professional-split) {
     flex-direction: row;
     align-items: stretch;
+  }
+
+  .resume--minimal-single,
+  .resume--professional-split {
+    flex-direction: column;
   }
 
   .sidebar {
@@ -594,13 +659,25 @@ html.pdf-exporting .experience__content {
     height: 180px;
   }
 
-  .content {
+  .content:not(.content--minimal) {
     padding: 3rem 3.5rem 3rem;
     max-width: calc(100% - var(--sidebar-width));
   }
 
+  .resume--minimal-single .content--minimal {
+    max-width: 760px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3rem 2rem 3.25rem;
+  }
+
   .footer {
     text-align: left;
+  }
+
+  .resume--minimal-single .footer {
+    text-align: center;
   }
 }
 
@@ -650,20 +727,71 @@ html.pdf-exporting .experience__content {
     height: 130px;
   }
 
-  .content {
+  .content:not(.content--minimal) {
     padding: 1.75rem 1.25rem 2rem;
   }
 
-  .experience {
+  .resume:not(.resume--minimal-single) .experience {
     grid-template-columns: 18px 1fr;
     gap: 0 1rem;
   }
 
-  .experience__header {
+  .resume:not(.resume--minimal-single) .experience__header {
     flex-direction: column;
   }
 
-  .experience__content {
+  .resume:not(.resume--minimal-single) .experience__content {
     padding: 1.15rem;
   }
+}
+
+/* PDF export — minimal single template */
+html.pdf-exporting .resume--minimal-single .experience {
+  display: block !important;
+  grid-template-columns: none !important;
+  gap: 0 !important;
+}
+
+html.pdf-exporting .resume--minimal-single .experience__marker {
+  display: none !important;
+}
+
+html.pdf-exporting .resume--minimal-single .experience__content {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  transform: none !important;
+  word-break: normal !important;
+  overflow-wrap: anywhere !important;
+}
+
+html.pdf-exporting .resume--minimal-single .experience__header {
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: flex-start !important;
+}
+
+html.pdf-exporting .resume--minimal-single .experience__header > div {
+  flex: 1 1 200px !important;
+  min-width: 0 !important;
+}
+
+html.pdf-exporting .resume--minimal-single .experience__title,
+html.pdf-exporting .resume--minimal-single .experience__company,
+html.pdf-exporting .resume--minimal-single .experience__description,
+html.pdf-exporting .resume--minimal-single .experience__list li,
+html.pdf-exporting .resume--minimal-single .experience__list .editable-field {
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: anywhere !important;
+}
+
+html.pdf-exporting .resume--minimal-single .experience__period {
+  white-space: nowrap !important;
+}
+
+html.pdf-exporting .resume--minimal-single .minimal-hero .profile-photo {
+  width: 148px !important;
+  height: 148px !important;
 }

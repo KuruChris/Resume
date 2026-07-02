@@ -1,4 +1,4 @@
-import { themes } from '../data/themes';
+import { themes } from '../config/themes';
 
 export default function ThemeSelector({ value, onChange }) {
   return (

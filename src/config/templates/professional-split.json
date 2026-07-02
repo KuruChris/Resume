@@ -1,0 +1,19 @@
+{
+  "id": "professional-split",
+  "name": "Professional Split",
+  "description": "Centered header with a two-column body — credentials on the left, summary and experience on the right.",
+  "layout": "split",
+  "defaultThemeId": "slate",
+  "sections": [
+    "profile",
+    "contact",
+    "about",
+    "skills",
+    "experience",
+    "projects",
+    "education",
+    "certificates",
+    "languages",
+    "references"
+  ]
+}

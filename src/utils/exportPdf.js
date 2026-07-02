@@ -96,7 +96,7 @@ function prepareExportLayout(resumeElement) {
       parseFloat(sidebarStyles.paddingLeft) + parseFloat(sidebarStyles.paddingRight);
     const maxTagWidth = sidebar.clientWidth - horizontalPadding;
 
-    resumeElement.querySelectorAll('.skill-list').forEach((list) => {
+    resumeElement.querySelectorAll('.sidebar .skill-list').forEach((list) => {
       restores.push([list, {
         display: list.style.display,
         width: list.style.width,
@@ -107,7 +107,7 @@ function prepareExportLayout(resumeElement) {
       list.style.maxWidth = `${maxTagWidth}px`;
     });
 
-    resumeElement.querySelectorAll('.skill-tag').forEach((tag) => {
+    resumeElement.querySelectorAll('.sidebar .skill-tag').forEach((tag) => {
       restores.push([tag, {
         display: tag.style.display,
         width: tag.style.width,

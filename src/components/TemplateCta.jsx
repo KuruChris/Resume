@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { DEFAULT_TEMPLATE_ID } from '../config';
 
 const features = [
   'No account required',
@@ -14,9 +15,14 @@ export default function TemplateCta({ variant = 'default' }) {
           <p className="template-cta--compact__text">
             Like this layout?
           </p>
-          <Link to="/editor" className="template-cta__button">
-            Use this template
-          </Link>
+          <div className="template-cta--compact__actions">
+            <Link to="/templates" className="template-cta__link">
+              All templates
+            </Link>
+            <Link to={`/editor/${DEFAULT_TEMPLATE_ID}`} className="template-cta__button">
+              Use this template
+            </Link>
+          </div>
         </div>
       </aside>
     );
@@ -41,8 +47,11 @@ export default function TemplateCta({ variant = 'default' }) {
         </div>
 
         <div className="template-cta__action">
-          <Link to="/editor" className="template-cta__button">
+          <Link to={`/editor/${DEFAULT_TEMPLATE_ID}`} className="template-cta__button">
             Use this template
+          </Link>
+          <Link to="/templates" className="template-cta__secondary-link">
+            Browse all templates
           </Link>
           <p className="template-cta__note">Takes less than a minute to get started</p>
         </div>

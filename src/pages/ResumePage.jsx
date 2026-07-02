@@ -1,11 +1,13 @@
-import { resume } from '../data/resume';
-import profilePhoto from '../assets/profile-placeholder.svg';
+import { createDemoDocument } from '../config';
 import ResumeView from '../components/ResumeView';
 import TemplateCta from '../components/TemplateCta';
 import '../App.css';
 import '../Editor.css';
 
 export default function ResumePage() {
+  const document = createDemoDocument();
+  const { content, profilePhoto, themeId, templateId } = document;
+
   return (
     <>
       <header className="resume-page__top">
@@ -13,8 +15,10 @@ export default function ResumePage() {
       </header>
 
       <ResumeView
-        data={resume}
+        data={content}
         profilePhoto={profilePhoto}
+        themeId={themeId}
+        templateId={templateId}
       />
 
       <div className="resume-page__cta">

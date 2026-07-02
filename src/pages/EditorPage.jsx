@@ -1,19 +1,20 @@
 import { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { createResumeTemplate } from '../data/defaultResume';
-import { DEFAULT_THEME_ID } from '../data/themes';
+import { Link, Navigate, useParams } from 'react-router-dom';
+import {
+  createPortfolioDocument,
+  isValidTemplateId,
+  patchDocumentContent,
+} from '../config';
 import ResumeView from '../components/ResumeView';
 import ResumeEditorForm from '../components/ResumeEditorForm';
 import '../App.css';
 import '../Editor.css';
 
-export default function EditorPage() {
-  const template = createResumeTemplate();
-  const [data, setData] = useState(template.data);
-  const [profilePhoto, setProfilePhoto] = useState(template.profilePhoto);
-  const [themeId, setThemeId] = useState(DEFAULT_THEME_ID);
+function EditorPageContent({ templateId }) {
+  const [document, setDocument] = useState(() => createPortfolioDocument({ templateId }));
   const [exporting, setExporting] = useState(false);
   const resumeRef = useRef(null);
+  const { content, profilePhoto, themeId } = document;
 
   async function handleExportPdf() {
     if (!resumeRef.current || exporting) return;
@@ -21,8 +22,8 @@ export default function EditorPage() {
     setExporting(true);
     try {
       const { downloadResumePdf } = await import('../utils/exportPdf');
-      const fileName = data.name.trim()
-        ? `${data.name.trim().replace(/\s+/g, '-')}-Resume.pdf`
+      const fileName = content.name.trim()
+        ? `${content.name.trim().replace(/\s+/g, '-')}-Resume.pdf`
         : 'My-Resume.pdf';
       await downloadResumePdf(resumeRef.current, fileName);
     } catch (error) {
@@ -37,7 +38,7 @@ export default function EditorPage() {
     <div className="editor-page">
       <header className="editor-toolbar">
         <div className="editor-toolbar__start">
-          <Link to="/" className="editor-toolbar__back">← Back</Link>
+          <Link to="/templates" className="editor-toolbar__back">← Templates</Link>
           <div>
             <h1 className="editor-toolbar__title">Resume editor</h1>
             <p className="editor-toolbar__note">
@@ -58,12 +59,8 @@ export default function EditorPage() {
       <div className="editor-layout">
         <div className="editor-layout__form">
           <ResumeEditorForm
-            data={data}
-            profilePhoto={profilePhoto}
-            themeId={themeId}
-            onDataChange={setData}
-            onPhotoChange={setProfilePhoto}
-            onThemeChange={setThemeId}
+            document={document}
+            onDocumentChange={setDocument}
           />
         </div>
 
@@ -73,11 +70,14 @@ export default function EditorPage() {
             <div className="editor-preview__frame">
               <ResumeView
                 ref={resumeRef}
-                data={data}
+                data={content}
                 profilePhoto={profilePhoto}
                 themeId={themeId}
+                templateId={templateId}
                 showFooter={false}
-                onDataChange={setData}
+                onDataChange={(nextContent) => {
+                  setDocument((current) => patchDocumentContent(current, nextContent));
+                }}
               />
             </div>
           </div>
@@ -85,4 +85,14 @@ export default function EditorPage() {
       </div>
     </div>
   );
+}
+
+export default function EditorPage() {
+  const { templateId } = useParams();
+
+  if (!isValidTemplateId(templateId)) {
+    return <Navigate to="/templates" replace />;
+  }
+
+  return <EditorPageContent templateId={templateId} />;
 }

@@ -1,0 +1,19 @@
+{
+  "id": "minimal-single",
+  "name": "Minimal Single",
+  "description": "Clean single-column layout with a centered header — lightweight and modern.",
+  "layout": "stacked",
+  "defaultThemeId": "slate",
+  "sections": [
+    "profile",
+    "contact",
+    "about",
+    "skills",
+    "experience",
+    "projects",
+    "education",
+    "certificates",
+    "languages",
+    "references"
+  ]
+}

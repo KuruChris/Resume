@@ -1,0 +1,19 @@
+{
+  "id": "classic-sidebar",
+  "name": "Classic Sidebar",
+  "description": "Professional layout with a dark sidebar and structured content area.",
+  "layout": "sidebar",
+  "defaultThemeId": "gold",
+  "sections": [
+    "profile",
+    "contact",
+    "about",
+    "skills",
+    "projects",
+    "experience",
+    "education",
+    "certificates",
+    "languages",
+    "references"
+  ]
+}

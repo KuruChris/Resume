@@ -1,46 +1,54 @@
-const emptyExperience = () => ({
-  title: '',
-  company: '',
-  location: '',
-  period: '',
-  description: '',
-  highlights: [],
-});
-
-const emptyEducation = () => ({
-  degree: '',
-  school: '',
-  period: '',
-});
-
-const emptyCertificate = () => ({
-  name: '',
-  note: '',
-  period: '',
-});
-
-const emptyLanguage = () => ({
-  name: '',
-  level: '',
-});
-
-const emptyReference = () => ({
-  name: '',
-  title: '',
-  company: '',
-  phone: '',
-  email: '',
-});
-
-const emptyProject = () => ({
-  name: '',
-  description: '',
-  linkEnabled: false,
-  url: '',
-  highlights: [],
-});
-
+import { useEffect, useState } from 'react';
+import {
+  SECTIONS,
+  createEmptyCertificate,
+  createEmptyContactLink,
+  createEmptyEducation,
+  createEmptyExperience,
+  createEmptyLanguage,
+  createEmptyProject,
+  createEmptyReference,
+  getTemplate,
+  patchDocumentContent,
+  patchDocumentProfilePhoto,
+  patchDocumentTheme,
+  templateHasSection,
+} from '../config';
 import ThemeSelector from './ThemeSelector';
+
+function parseCommaSeparatedList(value) {
+  return value.split(',').map((item) => item.trim()).filter(Boolean);
+}
+
+function CommaSeparatedInput({ values, onChange, className }) {
+  const [text, setText] = useState(() => values.join(', '));
+  const [focused, setFocused] = useState(false);
+
+  useEffect(() => {
+    if (!focused) {
+      setText(values.join(', '));
+    }
+  }, [values, focused]);
+
+  function commit(nextText) {
+    const parsed = parseCommaSeparatedList(nextText);
+    onChange(parsed);
+    setText(parsed.join(', '));
+  }
+
+  return (
+    <input
+      className={className}
+      value={text}
+      onChange={(event) => setText(event.target.value)}
+      onFocus={() => setFocused(true)}
+      onBlur={() => {
+        setFocused(false);
+        commit(text);
+      }}
+    />
+  );
+}
 
 function Field({ label, children, hint }) {
   return (
@@ -69,33 +77,55 @@ function SectionCard({ title, children, onAdd, addLabel }) {
 }
 
 export default function ResumeEditorForm({
-  data,
-  profilePhoto,
-  themeId,
-  onDataChange,
-  onPhotoChange,
-  onThemeChange,
+  document,
+  onDocumentChange,
 }) {
-  function updateData(patch) {
-    onDataChange({ ...data, ...patch });
+  const { content: data, profilePhoto, themeId, templateId } = document;
+  const template = getTemplate(templateId);
+
+  function updateContent(patch) {
+    onDocumentChange(patchDocumentContent(document, { ...data, ...patch }));
   }
 
   function updateContact(field, value) {
-    updateData({ contact: { ...data.contact, [field]: value } });
+    updateContent({ contact: { ...data.contact, [field]: value } });
+  }
+
+  function updateContactLinks(updater) {
+    updateContent({
+      contact: {
+        ...data.contact,
+        links: updater(data.contact.links || []),
+      },
+    });
+  }
+
+  function addContactLink() {
+    updateContactLinks((links) => [...links, createEmptyContactLink()]);
+  }
+
+  function removeContactLink(index) {
+    updateContactLinks((links) => links.filter((_, i) => i !== index));
+  }
+
+  function updateContactLink(index, patch) {
+    updateContactLinks((links) => links.map((link, i) => (
+      i === index ? { ...link, ...patch } : link
+    )));
   }
 
   function updateListItem(listName, index, patch) {
-    updateData({
+    updateContent({
       [listName]: (data[listName] || []).map((item, i) => (i === index ? { ...item, ...patch } : item)),
     });
   }
 
   function addListItem(listName, factory) {
-    updateData({ [listName]: [...(data[listName] || []), factory()] });
+    updateContent({ [listName]: [...(data[listName] || []), factory()] });
   }
 
   function removeListItem(listName, index) {
-    updateData({ [listName]: (data[listName] || []).filter((_, i) => i !== index) });
+    updateContent({ [listName]: (data[listName] || []).filter((_, i) => i !== index) });
   }
 
   function handlePhotoInput(event) {
@@ -108,14 +138,26 @@ export default function ResumeEditorForm({
     }
 
     const reader = new FileReader();
-    reader.onload = () => onPhotoChange(reader.result);
+    reader.onload = () => {
+      onDocumentChange(patchDocumentProfilePhoto(document, reader.result));
+    };
     reader.readAsDataURL(file);
   }
 
   return (
     <div className="editor-form">
+      <SectionCard title="Template">
+        <p className="editor-template-name">{template.name}</p>
+        <p className="editor-section__hint">{template.description}</p>
+      </SectionCard>
+
       <SectionCard title="Color theme">
-        <ThemeSelector value={themeId} onChange={onThemeChange} />
+        <ThemeSelector
+          value={themeId}
+          onChange={(nextThemeId) => {
+            onDocumentChange(patchDocumentTheme(document, nextThemeId));
+          }}
+        />
       </SectionCard>
 
       <SectionCard title="Profile photo">
@@ -133,23 +175,26 @@ export default function ResumeEditorForm({
         </div>
       </SectionCard>
 
+      {templateHasSection(document, SECTIONS.PROFILE) && (
       <SectionCard title="Basics">
         <Field label="Full name">
           <input
             className="editor-input"
             value={data.name}
-            onChange={(e) => updateData({ name: e.target.value })}
+            onChange={(e) => updateContent({ name: e.target.value })}
           />
         </Field>
         <Field label="Job title">
           <input
             className="editor-input"
             value={data.title}
-            onChange={(e) => updateData({ title: e.target.value })}
+            onChange={(e) => updateContent({ title: e.target.value })}
           />
         </Field>
       </SectionCard>
+      )}
 
+      {templateHasSection(document, SECTIONS.CONTACT) && (
       <SectionCard title="Contact">
         <Field label="Email">
           <input
@@ -173,43 +218,88 @@ export default function ResumeEditorForm({
             onChange={(e) => updateContact('location', e.target.value)}
           />
         </Field>
-        <Field label="LinkedIn URL">
-          <input
-            className="editor-input"
-            value={data.contact.linkedin}
-            onChange={(e) => updateContact('linkedin', e.target.value)}
-          />
-        </Field>
-      </SectionCard>
 
+        <div className="editor-subsection">
+          <div className="editor-subsection__header">
+            <h4 className="editor-subsection__title">Social links</h4>
+            <button
+              type="button"
+              className="editor-btn editor-btn--ghost"
+              onClick={addContactLink}
+            >
+              + Add link
+            </button>
+          </div>
+          <p className="editor-section__hint">Optional — LinkedIn, GitHub, portfolio, etc. Leave blank to hide.</p>
+          {(data.contact.links || []).length === 0 && (
+            <p className="editor-empty-hint">No social links added.</p>
+          )}
+          {(data.contact.links || []).map((link, index) => (
+            <div key={index} className="editor-card">
+              <div className="editor-card__header">
+                <h4 className="editor-card__title">Link {index + 1}</h4>
+                <button
+                  type="button"
+                  className="editor-btn editor-btn--ghost editor-btn--danger"
+                  onClick={() => removeContactLink(index)}
+                >
+                  Remove
+                </button>
+              </div>
+              <Field label="Label">
+                <input
+                  className="editor-input"
+                  value={link.label}
+                  placeholder="LinkedIn, GitHub, Website…"
+                  onChange={(e) => updateContactLink(index, { label: e.target.value })}
+                />
+              </Field>
+              <Field label="URL">
+                <input
+                  className="editor-input"
+                  type="url"
+                  value={link.url}
+                  placeholder="https://"
+                  onChange={(e) => updateContactLink(index, { url: e.target.value })}
+                />
+              </Field>
+            </div>
+          ))}
+        </div>
+      </SectionCard>
+      )}
+
+      {templateHasSection(document, SECTIONS.ABOUT) && (
       <SectionCard title="About me">
         <Field label="Bullet points" hint="One highlight per line.">
           <textarea
             className="editor-textarea"
             rows={6}
             value={data.about.join('\n')}
-            onChange={(e) => updateData({
+            onChange={(e) => updateContent({
               about: e.target.value.split('\n').map((line) => line.trim()),
             })}
           />
         </Field>
       </SectionCard>
+      )}
 
+      {templateHasSection(document, SECTIONS.SKILLS) && (
       <SectionCard title="Skills">
         <Field label="Skills" hint="Separate with commas.">
-          <input
+          <CommaSeparatedInput
             className="editor-input"
-            value={data.skills.join(', ')}
-            onChange={(e) => updateData({
-              skills: e.target.value.split(',').map((skill) => skill.trim()).filter(Boolean),
-            })}
+            values={data.skills}
+            onChange={(skills) => updateContent({ skills })}
           />
         </Field>
       </SectionCard>
+      )}
 
+      {templateHasSection(document, SECTIONS.PROJECTS) && (
       <SectionCard
         title="Projects"
-        onAdd={() => addListItem('projects', emptyProject)}
+        onAdd={() => addListItem('projects', createEmptyProject)}
         addLabel="+ Add project"
       >
         {(data.projects || []).map((project, index) => (
@@ -273,10 +363,12 @@ export default function ResumeEditorForm({
           </div>
         ))}
       </SectionCard>
+      )}
 
+      {templateHasSection(document, SECTIONS.EXPERIENCE) && (
       <SectionCard
         title="Work experience"
-        onAdd={() => addListItem('experience', emptyExperience)}
+        onAdd={() => addListItem('experience', createEmptyExperience)}
         addLabel="+ Add role"
       >
         {data.experience.map((job, index) => (
@@ -340,10 +432,12 @@ export default function ResumeEditorForm({
           </div>
         ))}
       </SectionCard>
+      )}
 
+      {templateHasSection(document, SECTIONS.EDUCATION) && (
       <SectionCard
         title="Education"
-        onAdd={() => addListItem('education', emptyEducation)}
+        onAdd={() => addListItem('education', createEmptyEducation)}
         addLabel="+ Add school"
       >
         {data.education.map((edu, index) => (
@@ -382,10 +476,12 @@ export default function ResumeEditorForm({
           </div>
         ))}
       </SectionCard>
+      )}
 
+      {templateHasSection(document, SECTIONS.CERTIFICATES) && (
       <SectionCard
         title="Certificates"
-        onAdd={() => addListItem('certificates', emptyCertificate)}
+        onAdd={() => addListItem('certificates', createEmptyCertificate)}
         addLabel="+ Add certificate"
       >
         {data.certificates.map((cert, index) => (
@@ -424,10 +520,12 @@ export default function ResumeEditorForm({
           </div>
         ))}
       </SectionCard>
+      )}
 
+      {templateHasSection(document, SECTIONS.LANGUAGES) && (
       <SectionCard
         title="Languages"
-        onAdd={() => addListItem('languages', emptyLanguage)}
+        onAdd={() => addListItem('languages', createEmptyLanguage)}
         addLabel="+ Add language"
       >
         {data.languages.map((lang, index) => (
@@ -459,10 +557,12 @@ export default function ResumeEditorForm({
           </div>
         ))}
       </SectionCard>
+      )}
 
+      {templateHasSection(document, SECTIONS.REFERENCES) && (
       <SectionCard
         title="References"
-        onAdd={() => addListItem('references', emptyReference)}
+        onAdd={() => addListItem('references', createEmptyReference)}
         addLabel="+ Add reference"
       >
         <p className="editor-section__hint">
@@ -519,6 +619,7 @@ export default function ResumeEditorForm({
           </div>
         ))}
       </SectionCard>
+      )}
     </div>
   );
 }
